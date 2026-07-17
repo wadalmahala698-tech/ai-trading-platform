@@ -1,7 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AI Trading Login</title>
+
+<style>
+body{
+font-family:Arial;
+text-align:center;
+padding:30px;
+}
+
+input,button{
+width:90%;
+padding:15px;
+margin:10px;
+font-size:18px;
+}
+
+button{
+background:#222;
+color:white;
+border-radius:10px;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -9,14 +35,12 @@
 <h1>AI Trading Platform</h1>
 
 <input id="user" placeholder="Username">
-<br>
 
 <input id="pass" placeholder="Password" type="password">
-<br>
 
 <button onclick="login()">Login</button>
 
-<p id="result"></p>
+<h3 id="result"></h3>
 
 
 <script>
@@ -41,12 +65,19 @@ password:document.getElementById("pass").value
 
 })
 
-.then(response=>response.json())
+.then(r=>r.json())
 
 .then(data=>{
 
 document.getElementById("result").innerHTML =
 JSON.stringify(data);
+
+})
+
+.catch(error=>{
+
+document.getElementById("result").innerHTML =
+"Server not connected";
 
 });
 

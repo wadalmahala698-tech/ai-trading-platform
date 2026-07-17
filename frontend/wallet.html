@@ -2,7 +2,34 @@
 <html>
 
 <head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AI Trading Wallet</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+padding:30px;
+}
+
+input,button{
+width:90%;
+padding:15px;
+margin:10px;
+font-size:18px;
+}
+
+button{
+background:#222;
+color:white;
+border-radius:10px;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -11,22 +38,24 @@
 
 <input id="user" placeholder="Username">
 
-<br><br>
-
-<button onclick="balance()">Check Balance</button>
+<button onclick="balance()">Show Balance</button>
 
 <button onclick="deposit()">Deposit 100</button>
 
 <button onclick="withdraw()">Withdraw 100</button>
+
 
 <h2 id="result"></h2>
 
 
 <script>
 
-function send(path, amount){
+const server="http://localhost:8000";
 
-fetch("http://localhost:8000/" + path, {
+
+function balance(){
+
+fetch(server+"/login",{
 
 method:"POST",
 
@@ -36,10 +65,9 @@ headers:{
 
 body:JSON.stringify({
 
-username:
-document.getElementById("user").value,
+username:document.getElementById("user").value,
 
-amount:amount
+password:"1234"
 
 })
 
@@ -50,7 +78,7 @@ amount:amount
 .then(data=>{
 
 document.getElementById("result").innerHTML =
-JSON.stringify(data);
+"Balance: "+data.balance;
 
 });
 
@@ -59,21 +87,21 @@ JSON.stringify(data);
 
 function deposit(){
 
-send("deposit",100);
+sendMoney("deposit");
 
 }
 
 
 function withdraw(){
 
-send("withdraw",100);
+sendMoney("withdraw");
 
 }
 
 
-function balance(){
+function sendMoney(action){
 
-fetch("http://localhost:8000/login",{
+fetch(server+"/"+action,{
 
 method:"POST",
 
@@ -83,10 +111,9 @@ headers:{
 
 body:JSON.stringify({
 
-username:
-document.getElementById("user").value,
+username:document.getElementById("user").value,
 
-password:"1234"
+amount:100
 
 })
 
@@ -106,4 +133,5 @@ JSON.stringify(data);
 </script>
 
 </body>
+
 </html>

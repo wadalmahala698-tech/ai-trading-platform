@@ -5,50 +5,33 @@ from users import register, login, get_balance, deposit, withdraw
 
 class Server(BaseHTTPRequestHandler):
 
+    def send_json(self, data):
+        self.send_response(200)
+        self.send_header("Content-type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+        self.wfile.write(json.dumps(data).encode())
+
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+
+
     def read_data(self):
         length = int(self.headers.get("Content-Length", 0))
         data = self.rfile.read(length)
         return json.loads(data)
 
 
-    def send_json(self, data):
-        self.send_response(200)
-        self.send_header("Content-type", "application/json")
-        self.end_headers()
-        self.wfile.write(json.dumps(data).encode())
-
-
-    def do_GET(self):
-
-        if self.path == "/":
-            self.send_json({
-                "status": "online",
-                "message": "AI Trading Platform is running"
-            })
-
-        else:
-            self.send_response(404)
-            self.end_headers()
-
-
     def do_POST(self):
 
         data = self.read_data()
 
-
-        if self.path == "/register":
-
-            result = register(
-                data["username"],
-                data["password"]
-            )
-
-            self.send_json({
-                "result": result
-            })
-
-
-        elif self.path == "/login":
+        if self.path == "/login":
 
             user = login(
                 data["username"],
@@ -60,11 +43,22 @@ class Server(BaseHTTPRequestHandler):
                     "login": "success",
                     "balance": user[3]
                 })
-
             else:
                 self.send_json({
                     "login": "failed"
                 })
+
+
+        elif self.path == "/register":
+
+            result = register(
+                data["username"],
+                data["password"]
+            )
+
+            self.send_json({
+                "result": result
+            })
 
 
         elif self.path == "/deposit":
