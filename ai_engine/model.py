@@ -2,6 +2,8 @@ import sys
 sys.path.append(".")
 
 import config
+from indicators import moving_average
+
 
 class TradingAI:
     def __init__(self):
@@ -10,19 +12,19 @@ class TradingAI:
     def predict(self, market_data, history):
         price = market_data["price"]
 
-        if len(history) == 0:
+        ma = moving_average(history)
+
+        if ma is None:
             return {
                 "signal": "HOLD",
                 "confidence": config.DEFAULT_CONFIDENCE
             }
 
-        average = sum(history) / len(history)
-
-        if price > average * config.BUY_THRESHOLD:
+        if price > ma:
             signal = "BUY"
             confidence = 0.70
 
-        elif price < average * config.SELL_THRESHOLD:
+        elif price < ma:
             signal = "SELL"
             confidence = 0.70
 
@@ -34,7 +36,7 @@ class TradingAI:
             "signal": signal,
             "confidence": confidence,
             "price": price,
-            "average": round(average, 2)
+            "moving_average": round(ma, 2)
         }
 
 
