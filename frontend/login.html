@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Trading Login</title>
+</head>
+
+<body>
+
+<h1>AI Trading Platform</h1>
+
+<h2>Register</h2>
+
+<input id="user" placeholder="Username">
+<br>
+<input id="pass" placeholder="Password" type="password">
+<br>
+
+<button onclick="register()">Create Account</button>
+
+<h2>Login</h2>
+
+<button onclick="login()">Login</button>
+
+<p id="result"></p>
+
+
+<script>
+
+function register(){
+document.getElementById("result").innerHTML =
+"Account created (Demo)";
+}
+
+
+function login(){
+document.getElementById("result").innerHTML =
+"Login successful (Demo)";
+}
+
+</script>
+
+</body>
+</html>
