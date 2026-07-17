@@ -8,16 +8,11 @@
 
 <h1>AI Trading Platform</h1>
 
-<h2>Register</h2>
-
 <input id="user" placeholder="Username">
 <br>
+
 <input id="pass" placeholder="Password" type="password">
 <br>
-
-<button onclick="register()">Create Account</button>
-
-<h2>Login</h2>
 
 <button onclick="login()">Login</button>
 
@@ -26,15 +21,35 @@
 
 <script>
 
-function register(){
-document.getElementById("result").innerHTML =
-"Account created (Demo)";
-}
-
-
 function login(){
+
+fetch("http://localhost:8000/login",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+username:document.getElementById("user").value,
+
+password:document.getElementById("pass").value
+
+})
+
+})
+
+.then(response=>response.json())
+
+.then(data=>{
+
 document.getElementById("result").innerHTML =
-"Login successful (Demo)";
+JSON.stringify(data);
+
+});
+
 }
 
 </script>
