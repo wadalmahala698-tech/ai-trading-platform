@@ -2,16 +2,24 @@ class TradingAI:
     def __init__(self):
         self.name = "AI Trading Model"
 
-    def predict(self, market_data):
+    def predict(self, market_data, history):
         price = market_data["price"]
 
-        if price < 55000:
-            signal = "BUY"
-            confidence = 0.75
+        if len(history) == 0:
+            return {
+                "signal": "HOLD",
+                "confidence": 0.50
+            }
 
-        elif price > 65000:
+        average = sum(history) / len(history)
+
+        if price > average:
+            signal = "BUY"
+            confidence = 0.70
+
+        elif price < average:
             signal = "SELL"
-            confidence = 0.75
+            confidence = 0.70
 
         else:
             signal = "HOLD"
@@ -20,7 +28,8 @@ class TradingAI:
         return {
             "signal": signal,
             "confidence": confidence,
-            "price_checked": price
+            "price": price,
+            "average": round(average, 2)
         }
 
 
