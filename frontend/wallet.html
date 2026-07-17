@@ -7,62 +7,99 @@
 
 <body>
 
-<h1>User Wallet</h1>
+<h1>Wallet</h1>
 
-<h2 id="balance">
-Balance: $1000
-</h2>
+<input id="user" placeholder="Username">
 
-<button onclick="deposit()">
-Deposit +100
-</button>
+<br><br>
 
-<button onclick="withdraw()">
-Withdraw -100
-</button>
+<button onclick="balance()">Check Balance</button>
 
+<button onclick="deposit()">Deposit 100</button>
 
-<p id="status"></p>
+<button onclick="withdraw()">Withdraw 100</button>
+
+<h2 id="result"></h2>
 
 
 <script>
 
-let balance = 1000;
+function send(path, amount){
+
+fetch("http://localhost:8000/" + path, {
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+username:
+document.getElementById("user").value,
+
+amount:amount
+
+})
+
+})
+
+.then(r=>r.json())
+
+.then(data=>{
+
+document.getElementById("result").innerHTML =
+JSON.stringify(data);
+
+});
+
+}
 
 
 function deposit(){
 
-balance += 100;
-
-document.getElementById("balance").innerHTML =
-"Balance: $" + balance;
-
-document.getElementById("status").innerHTML =
-"Deposit completed";
+send("deposit",100);
 
 }
 
 
 function withdraw(){
 
-if(balance >= 100){
-
-balance -= 100;
-
-document.getElementById("balance").innerHTML =
-"Balance: $" + balance;
-
-document.getElementById("status").innerHTML =
-"Withdraw completed";
+send("withdraw",100);
 
 }
 
-else{
 
-document.getElementById("status").innerHTML =
-"Insufficient balance";
+function balance(){
 
-}
+fetch("http://localhost:8000/login",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+username:
+document.getElementById("user").value,
+
+password:"1234"
+
+})
+
+})
+
+.then(r=>r.json())
+
+.then(data=>{
+
+document.getElementById("result").innerHTML =
+JSON.stringify(data);
+
+});
 
 }
 
