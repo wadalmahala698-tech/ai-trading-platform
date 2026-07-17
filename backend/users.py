@@ -62,3 +62,17 @@ def withdraw(username, amount):
         (amount, username)
     )
     db.commit()
+
+
+def get_balance(username):
+    cursor.execute(
+        "SELECT balance FROM users WHERE username=?",
+        (username,)
+    )
+
+    result = cursor.fetchone()
+
+    if result:
+        return result[0]
+
+    return None
