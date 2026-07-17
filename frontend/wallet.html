@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>AI Trading Wallet</title>
+</head>
+
+<body>
+
+<h1>User Wallet</h1>
+
+<h2 id="balance">
+Balance: $1000
+</h2>
+
+<button onclick="deposit()">
+Deposit +100
+</button>
+
+<button onclick="withdraw()">
+Withdraw -100
+</button>
+
+
+<p id="status"></p>
+
+
+<script>
+
+let balance = 1000;
+
+
+function deposit(){
+
+balance += 100;
+
+document.getElementById("balance").innerHTML =
+"Balance: $" + balance;
+
+document.getElementById("status").innerHTML =
+"Deposit completed";
+
+}
+
+
+function withdraw(){
+
+if(balance >= 100){
+
+balance -= 100;
+
+document.getElementById("balance").innerHTML =
+"Balance: $" + balance;
+
+document.getElementById("status").innerHTML =
+"Withdraw completed";
+
+}
+
+else{
+
+document.getElementById("status").innerHTML =
+"Insufficient balance";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
