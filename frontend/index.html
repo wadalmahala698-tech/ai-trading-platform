@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Trading Platform</title>
+</head>
+
+<body>
+
+<h1>AI Trading Dashboard</h1>
+
+<h2>Market Data</h2>
+<p id="price">Loading...</p>
+
+<h2>AI Decision</h2>
+<p id="decision">Loading...</p>
+
+<h2>Risk</h2>
+<p id="risk">Loading...</p>
+
+<script>
+let data = {
+    price: 68022.77,
+    signal: "BUY",
+    confidence: 0.7,
+    risk: "TRADE_ALLOWED"
+};
+
+document.getElementById("price").innerHTML =
+"Price: " + data.price;
+
+document.getElementById("decision").innerHTML =
+"Signal: " + data.signal +
+" | Confidence: " + data.confidence;
+
+document.getElementById("risk").innerHTML =
+data.risk;
+</script>
+
+</body>
+</html>
